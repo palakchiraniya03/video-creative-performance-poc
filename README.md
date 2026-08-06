@@ -4,6 +4,17 @@
 
 ![Architecture diagram](./architecture.png)
 
+## Tech stack
+
+| Category | Tools |
+|---|---|
+| Language | Python |
+| Modeling | LightGBM |
+| Explainability | SHAP |
+| Data handling | Pandas, NumPy |
+| Evaluation | Scikit-learn, SciPy |
+| Visualization | Matplotlib |
+
 This is a scoped proof-of-concept validating the core modeling decision from
 my Section 3 answer: predicting + ranking video creative performance per
 brand, under a small-per-brand-data constraint, with SHAP-based explanations.
@@ -95,3 +106,13 @@ pip install lightgbm shap pandas numpy scikit-learn
 python3 generate_data.py
 python3 train_and_explain.py
 ```
+
+## Future work
+
+- Instagram Graph API ingestion (replacing the synthetic data generator)
+- CLIP embeddings for visual feature extraction
+- Whisper transcription for audio/hook detection
+- OCR for on-screen text extraction
+- Bayesian hierarchical model for better per-brand pooling (see "Honest finding" above)
+- Online/incremental learning as new performance data arrives
+- Agentic creative recommendation layer (brief generation, budget reallocation, automated experimentation)
