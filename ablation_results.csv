@@ -1,0 +1,9 @@
+Configuration,MAE,Spearman rho
+Full model (baseline),11.46,0.382
+Without brand_id,11.46,0.382
+Without hook_type,11.46,0.382
+Without pacing (pacing_cuts_per_10s),11.16,0.314
+Without audio (audio_energy),11.48,0.239
+"Without on-screen text (has_onscreen_text, onscreen_text_early)",11.95,0.107
+Without visual_style_cluster,11.74,0.294
+Without video_len_sec,11.92,0.364
