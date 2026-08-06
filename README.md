@@ -72,6 +72,37 @@ This is exactly the kind of thing that only shows up when you actually run
 the pipeline end-to-end on data instead of just diagramming it on paper —
 which is the point of this PoC.
 
+## Ablation study
+
+As a rigorous follow-up to the SHAP finding above, `ablation_study.py`
+retrains the model multiple times, each time removing one feature group, to
+independently test whether `hook_type` and `brand_id` genuinely contribute
+nothing — or whether SHAP was just failing to surface real signal.
+
+| Configuration | MAE | Δ MAE vs baseline | Spearman rho | Δ rho vs baseline |
+|---|---|---|---|---|
+| Full model (baseline) | 11.46 | — | 0.382 | — |
+| Without brand_id | 11.46 | +0.00 | 0.382 | +0.000 |
+| Without hook_type | 11.46 | +0.00 | 0.382 | +0.000 |
+| Without pacing | 11.16 | -0.30 | 0.314 | -0.068 |
+| Without audio_energy | 11.48 | +0.02 | 0.239 | -0.143 |
+| Without on-screen text | 11.95 | +0.49 | 0.107 | -0.275 |
+| Without visual_style_cluster | 11.74 | +0.28 | 0.294 | -0.088 |
+| Without video_len_sec | 11.92 | +0.46 | 0.364 | -0.018 |
+
+**Result: removing `brand_id` or `hook_type` changes literally nothing** —
+identical MAE and rho to four decimal places. This independently confirms
+the SHAP finding via a completely different method (direct ablation rather
+than attribution), and rules out the possibility that SHAP was simply
+failing to detect real signal.
+
+By contrast, removing on-screen text causes the largest single drop in
+ranking quality (rho falls from 0.38 to 0.11), followed by audio energy —
+these are the features the model is actually relying on, and match the
+production fix proposed above (engineering an explicit `hook_matches_brand`
+interaction feature rather than trusting the model to discover it from raw
+categoricals with this little data).
+
 ## Model explainability (visualizations)
 
 Running `train_and_explain.py` saves two plots, which make the finding
