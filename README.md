@@ -61,6 +61,34 @@ This is exactly the kind of thing that only shows up when you actually run
 the pipeline end-to-end on data instead of just diagramming it on paper —
 which is the point of this PoC.
 
+## Model explainability (visualizations)
+
+Running `train_and_explain.py` saves two plots, which make the finding
+above directly visible rather than just described in text.
+
+### SHAP summary (beeswarm) plot
+![SHAP summary](./shap_summary.png)
+
+Each row is a feature; each dot is one test-set video. Dot position shows how
+much that feature pushed the prediction up or down for that video, and color
+shows whether the feature's value was high (pink) or low (blue). `hook_type`
+and `brand_id` collapse to a flat gray line at zero — visual confirmation
+that the model isn't using them at all, consistent with the small-per-brand-
+data limitation discussed above.
+
+### LightGBM feature importance (gain-based)
+![Feature importance](./feature_importance.png)
+
+A second, independent importance measure (based on how much each feature
+improves split quality across the trees). Notably, `brand_id` and
+`hook_type` don't appear on this chart at all — they contributed zero gain,
+cross-confirming the SHAP finding via a completely different method.
+
+Together, these plots are why this PoC is useful beyond a demo: they make it
+easy to inspect what the model actually learned versus what it was supposed
+to learn — exactly the kind of debugging visibility a real production ML
+system needs.
+
 ## How to run
 ```bash
 pip install lightgbm shap pandas numpy scikit-learn
