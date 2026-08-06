@@ -131,12 +131,24 @@ easy to inspect what the model actually learned versus what it was supposed
 to learn — exactly the kind of debugging visibility a real production ML
 system needs.
 
-## How to run
+## Quick start
+
+**Requirements:** Python 3.12 (tested on 3.12.3). All dependencies are
+pinned in `requirements.txt` for reproducible installs.
+
 ```bash
-pip install lightgbm shap pandas numpy scikit-learn
-python3 generate_data.py
-python3 train_and_explain.py
+git clone https://github.com/palakchiraniya03/video-creative-performance-poc.git
+cd video-creative-performance-poc
+pip install -r requirements.txt
+
+python3 generate_data.py       # generates synthetic_video_data.csv
+python3 train_and_explain.py   # trains model, prints metrics, saves plots
+python3 ablation_study.py      # runs the ablation study (optional)
 ```
+
+Random seeds are fixed throughout (`np.random.seed(42)` for data generation,
+`random_state=42` on the LightGBM model), so re-running produces identical
+results: Test MAE 11.46, Spearman rho 0.382, on every run.
 
 ## Future work
 
