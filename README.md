@@ -1,5 +1,9 @@
 # PoC: Small-Data Creative Performance Modeling with Explainability
 
+## Architecture 
+
+![Architecture diagram](./architecture.png)
+
 This is a scoped proof-of-concept validating the core modeling decision from
 my Section 3 answer: predicting + ranking video creative performance per
 brand, under a small-per-brand-data constraint, with SHAP-based explanations.
